@@ -227,6 +227,4 @@ if verifyParts() {
 wait until false. // TEMPORARY
 print "Execution finished with no errors.".
 
-// TODO : Create functions for engines & flaps health checkouts.
-// TODO URGENT : Print error & finish execution if both sf & flight mode are true.
-// TODO non-priority : Create functions for engines & flaps health checkouts.
+// TODO non-priority : Create functions for engines & flaps health checkouts & rcs etc etc that are separate for clarity.
