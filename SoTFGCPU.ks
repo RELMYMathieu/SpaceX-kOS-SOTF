@@ -115,8 +115,6 @@ local function controlEngine {
 }
 
 local function staticFireSequence {
-    print "Initializing static fire sequence in 5 seconds...".
-    wait 5.
     clearscreen.
     
     local messages to list().  // Store persistent messages (for logging purposes)
@@ -167,10 +165,12 @@ if verifyParts() {
     print "All parts verified. Testing flaps...".
     setFlaps(0, 0, true, 40).
     wait 3.
-    setFlaps(30, 0, true, 40).
-    wait 5.
-    setFlaps(0, 30, true, 40).
-    wait 5.
+    setFlaps(90, 0, true, 40).
+    wait 3.
+    setFlaps(0, 0, true, 40).
+    wait 3.
+    setFlaps(0, 90, true, 40).
+    wait 3.
     setFlaps(40, 40, false, 40).
     print "Test complete.".
 
@@ -198,12 +198,15 @@ if verifyParts() {
     setEngineGimbal(3, false).
     
     print "Engine test sequence complete.".
+    wait 2.
 
     if sfMode {
-        print "Entering static fire mode...".
+        print "Initializing static fire sequence in 5 seconds...".
+        wait 5.
         staticFireSequence().
     } else if flightMode {
-        print "Entering flight mode...".
+        print "Initializing flight mode in 5 seconds...".
+        wait 5.
         runPath("SoTFFCPU.ks").
     }
 } else {
