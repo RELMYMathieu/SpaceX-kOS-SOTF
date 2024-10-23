@@ -177,7 +177,7 @@ if verifyParts() {
     setFlaps(40, 40, false, 40).
     print "Test complete.".
 
-    wait 3.
+    wait 5.
 
     print "Testing engines...".
     wait 2.
@@ -227,4 +227,9 @@ if verifyParts() {
 wait until false. // TEMPORARY
 print "Execution finished with no errors.".
 
+<<<<<<< Updated upstream
 // TODO : Create functions for engines & flaps health checkouts.
+=======
+// TODO URGENT : Print error & finish execution if both sf & flight mode are true.
+// TODO non-priority : Create functions for engines & flaps health checkouts.
+>>>>>>> Stashed changes
