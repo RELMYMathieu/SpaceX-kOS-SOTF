@@ -24,6 +24,7 @@ lock steering to "kill".
 
 // Static fire mode
 set sfMode to true. // True will trigger SF sequence after safety checks, else skip past SF logic.
+set flightMode to true. // Flight mode triggers if true. Else, continue execution.
 
 // SYSTEM VERIFICATION
 function verifyParts {
@@ -199,16 +200,16 @@ if verifyParts() {
     print "Engine test sequence complete.".
 
     if sfMode {
+        print "Entering static fire mode...".
         staticFireSequence().
+    } else if flightMode {
+        print "Entering flight mode...".
+        runoncepath("0:/SOTF_Flight_CPU.ks").
     }
-
 } else {
     print "System verification failed. Please check part tags.".
 }
+// TODO URGENT : Print error & finish execution if both sf & flight mode are true.
+// TODO : Create functions for engines & flaps health checkouts.
 
 print "Execution finished with no errors.".
-
-// Execute from boot file?
-// Maybe have an init script?
-
-// TODO : Flight program.
