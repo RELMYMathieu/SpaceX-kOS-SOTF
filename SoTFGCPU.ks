@@ -23,6 +23,7 @@ lock throttle to 0.
 lock steering to "kill".
 
 // Static fire mode
+set testSequence to false. // TODO : Use this variable to decide whether or not to proceed with testing engines/flaps/rcs.
 set sfMode to false. // True will trigger SF sequence after safety checks, else skip past SF logic.
 set flightMode to true. // Flight mode triggers if true. Else, continue execution.
 
@@ -162,6 +163,8 @@ local function staticFireSequence {
 
 // Test sequence
 if verifyParts() {
+    // TODO : Add RCS checkouts for both nose & body +modify rcs power (25, 50, 100...)
+    // TODO : Add venting checkouts (vent out some prop & then figure out refuel with the launchpad)
     print "All parts verified. Testing flaps...".
     setFlaps(0, 0, true, 40).
     wait 3.
@@ -200,7 +203,14 @@ if verifyParts() {
     print "Engine test sequence complete.".
     wait 2.
 
-    if sfMode {
+
+    // Check for conflicting modes
+    if sfMode and flightMode {
+        print "ERROR: Both Static Fire Mode and Flight Mode are active!".
+        print "Please disable one mode and restart the script to proceed.".
+        wait until false.  // Stop further execution
+    }
+    else if sfMode {
         print "Initializing static fire sequence in 5 seconds...".
         wait 5.
         staticFireSequence().
@@ -209,6 +219,7 @@ if verifyParts() {
         wait 5.
         runPath("SoTFFCPU.ks").
     }
+    
 } else {
     print "System verification failed. Please check part tags.".
 }
@@ -216,5 +227,4 @@ if verifyParts() {
 wait until false. // TEMPORARY
 print "Execution finished with no errors.".
 
-// TODO URGENT : Print error & finish execution if both sf & flight mode are true.
 // TODO : Create functions for engines & flaps health checkouts.
