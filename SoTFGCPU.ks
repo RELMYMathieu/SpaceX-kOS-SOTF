@@ -1,6 +1,6 @@
-// STARSHIP SOTF CONTROL SCRIPT
+// STARSHIP SoTF CONTROL SCRIPT
 clearscreen.
-print "-- Starship SOTF Software v1.0 --".
+print "-- Starship SoTF Ground Software v1.0 --".
 print "Initializing ship systems...".
 
 // PART INITIALIZATION
@@ -23,11 +23,11 @@ lock throttle to 0.
 lock steering to "kill".
 
 // Static fire mode
-set sfMode to true. // True will trigger SF sequence after safety checks, else skip past SF logic.
+set sfMode to false. // True will trigger SF sequence after safety checks, else skip past SF logic.
 set flightMode to true. // Flight mode triggers if true. Else, continue execution.
 
 // SYSTEM VERIFICATION
-function verifyParts {
+local function verifyParts {
     local allPartsFound to true.
     
     if shipCore = 0 {
@@ -60,7 +60,7 @@ function verifyParts {
     return allPartsFound.
 }
 
-function setFlaps {
+local function setFlaps {
     parameter angleFwd.     // Forward flap angle (0-90°)
     parameter angleAft.     // Aft flap angle (0-90°)
     parameter deploy.       // Boolean for deployment
@@ -82,7 +82,7 @@ function setFlaps {
 }
 
 // ENGINE CONTROL
-function setEngineGimbal {
+local function setEngineGimbal {
     parameter engineNum.    // 1, 2, or 3
     parameter actuateOut.   // true = gimbal locked (actuated out), false = gimbal active (actuated in)
     
@@ -99,7 +99,7 @@ function setEngineGimbal {
     }
 }
 
-function controlEngine {
+local function controlEngine {
     parameter engineNum.    // 1, 2, or 3
     parameter activate.     // true to activate, false to shutdown
     
@@ -114,7 +114,7 @@ function controlEngine {
     }
 }
 
-function staticFireSequence {
+local function staticFireSequence {
     print "Initializing static fire sequence in 5 seconds...".
     wait 5.
     clearscreen.
@@ -204,12 +204,14 @@ if verifyParts() {
         staticFireSequence().
     } else if flightMode {
         print "Entering flight mode...".
-        runoncepath("0:/SOTF_Flight_CPU.ks").
+        runPath("SoTFFCPU.ks").
     }
 } else {
     print "System verification failed. Please check part tags.".
 }
+
+wait until false. // TEMPORARY
+print "Execution finished with no errors.".
+
 // TODO URGENT : Print error & finish execution if both sf & flight mode are true.
 // TODO : Create functions for engines & flaps health checkouts.
-
-print "Execution finished with no errors.".
